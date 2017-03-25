@@ -2,6 +2,17 @@ import pandas as pd
 import numpy as np
 from scipy import spatial
 
+def get_user_similarity(user_ratings):
+    number_of_users = len(user_ratings.index)
+    user_similarity_matrix = np.zeros(shape=(number_of_users, number_of_users))
+    most_similar_users = np.zeros(shape=(number_of_users, number_of_users - 1))
+    for index, row in user_ratings.iterrows():
+        for index_internal, row_internal in user_ratings.iterrows():
+            user_similarity_matrix[index - 1][index_internal - 1] = 1 - spatial.distance.cosine(row.as_matrix(),
+                                                                                                row_internal.as_matrix())
+        most_similar_users[index - 1] = np.array(user_similarity_matrix[index - 1]).argsort()[::-1][1:]
+    return most_similar_users
+
 def data_preprocess(data_file):
     # here we define column name in our data file
     r_cols = ['user_id', 'movie_id', 'rating','timestamp']
@@ -16,10 +27,7 @@ def data_preprocess(data_file):
                                                    aggfunc=np.mean).reindex(columns=np.arange(1,6), fill_value=0)
     # now we have user-movie ratings matrix
     # Creates a list containing 5 lists, each of 8 items, all set to 0
-    user_similarity_matrix = np.zeros(shape=(len(user_ratings_matrix.index),len(user_ratings_matrix.index)))
-    for index, row in user_ratings_matrix.iterrows():
-        for index_internal, row_internal in user_ratings_matrix.iterrows():
-            user_similarity_matrix[index - 1][index_internal - 1] = 1 - spatial.distance.cosine(row.as_matrix(), row_internal.as_matrix())
+    print get_user_similarity(user_ratings_matrix)
 
     #go through each user and find the most similar user for that user
     return user_ratings_matrix
