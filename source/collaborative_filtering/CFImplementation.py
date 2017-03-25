@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 from scipy import spatial
 
+def get_top_n_recommendations():
+
+    return 1
+
 def get_user_similarity(user_ratings):
     number_of_users = len(user_ratings.index)
     user_similarity_matrix = np.zeros(shape=(number_of_users, number_of_users))
@@ -28,12 +32,12 @@ def data_preprocess(data_file):
                                                    aggfunc=np.mean).reindex(columns=np.arange(1,6), fill_value=0)
     # now we have user-movie ratings matrix
     # Creates a list containing 5 lists, each of 8 items, all set to 0
-    print get_user_similarity(user_ratings_matrix) + 1
+    # print get_user_similarity(user_ratings_matrix) + 1
     #
     # for index, row in user_ratings_matrix.iterrows():
-    #     print row.as_matrix()
+    # is    print row.as_matrix()
 
-    # print user_ratings_matrix.ix[1]
-
-    #go through each user and find the most similar user for that user
-    return user_ratings_matrix
+    # get unwatched movie list
+    closest_neighbours_ratings = user_ratings_matrix.ix[2].as_matrix()
+    current_users_unwathed_list = np.where(user_ratings_matrix.ix[1].as_matrix() == 0)[0]
+    closest_neighbours_ratings_for_unwatched_movies = [closest_neighbours_ratings[index] for index in current_users_unwathed_list]
