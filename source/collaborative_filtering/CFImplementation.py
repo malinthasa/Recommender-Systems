@@ -27,7 +27,10 @@ def data_preprocess(data_file):
                                                    aggfunc=np.mean).reindex(columns=np.arange(1,6), fill_value=0)
     # now we have user-movie ratings matrix
     # Creates a list containing 5 lists, each of 8 items, all set to 0
-    print get_user_similarity(user_ratings_matrix)
+    # print get_user_similarity(user_ratings_matrix)
+
+    for index, row in user_ratings_matrix.iterrows():
+        print row.as_matrix()
 
     #go through each user and find the most similar user for that user
     return user_ratings_matrix
