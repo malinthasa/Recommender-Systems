@@ -17,11 +17,11 @@ def data_preprocess(data_file):
     # now we have user-movie ratings matrix
 
     # Creates a list containing 5 lists, each of 8 items, all set to 0
-    w, h = 4, 4;
+    w, h = len(user_ratings_matrix.index), len(user_ratings_matrix.index);
     Matrix = [[0 for x in range(w)] for y in range(h)]
     for index, row in user_ratings_matrix.iterrows():
         for index_internal, row_internal in user_ratings_matrix.iterrows():
-            Matrix[index][index_internal] = 1 - spatial.distance.cosine(row.as_matrix(), row_internal.as_matrix())
-            print Matrix[index][index_internal]
+            Matrix[index - 1][index_internal - 1] = 1 - spatial.distance.cosine(row.as_matrix(), row_internal.as_matrix())
+            print Matrix[index - 1][index_internal - 1]
     #go through each user and find the most similar user for that user
     return user_ratings_matrix
