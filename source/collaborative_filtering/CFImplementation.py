@@ -2,11 +2,16 @@ import pandas as pd
 import numpy as np
 from scipy import spatial
 
-def get_top_n_recommendations():
+def get_top_n_recommendations(user_ratings_matrix, current_user, closest_user):
+    get_most_similar_users(user_ratings_matrix, current_user)[0]
+    closest_neighbours_ratings = user_ratings_matrix.ix[closest_user].as_matrix()
+    current_users_unwathed_list = np.where(user_ratings_matrix.ix[current_user].as_matrix() == 0)[0]
+    closest_neighbours_ratings_for_unwatched_movies = [closest_neighbours_ratings[index] for index in
+                                                       current_users_unwathed_list]
+    those_ratings_in_decending_order = np.array(closest_neighbours_ratings_for_unwatched_movies).argsort()[::-1][:]
+    return [current_users_unwathed_list[a] for a in those_ratings_in_decending_order]
 
-    return 1
-
-def get_user_similarity(user_ratings):
+def get_most_similar_users(user_ratings, user_id):
     number_of_users = len(user_ratings.index)
     user_similarity_matrix = np.zeros(shape=(number_of_users, number_of_users))
     most_similar_users = np.zeros(shape=(number_of_users, number_of_users - 1))
@@ -16,7 +21,7 @@ def get_user_similarity(user_ratings):
             user_similarity_matrix[index - 1][index_internal - 1] = 1 - spatial.distance.cosine(row.as_matrix(),
                                                                                                 row_internal.as_matrix())
         most_similar_users[index - 1] = np.array(user_similarity_matrix[index - 1]).argsort()[::-1][1:]
-    return most_similar_users
+    return most_similar_users[user_id - 1]
 
 def data_preprocess(data_file):
     # here we define column name in our data file
@@ -32,12 +37,10 @@ def data_preprocess(data_file):
                                                    aggfunc=np.mean).reindex(columns=np.arange(1,6), fill_value=0)
     # now we have user-movie ratings matrix
     # Creates a list containing 5 lists, each of 8 items, all set to 0
-    # print get_user_similarity(user_ratings_matrix) + 1
+    print get_most_similar_users(user_ratings_matrix) + 1
     #
     # for index, row in user_ratings_matrix.iterrows():
     # is    print row.as_matrix()
 
     # get unwatched movie list
-    closest_neighbours_ratings = user_ratings_matrix.ix[2].as_matrix()
-    current_users_unwathed_list = np.where(user_ratings_matrix.ix[1].as_matrix() == 0)[0]
-    closest_neighbours_ratings_for_unwatched_movies = [closest_neighbours_ratings[index] for index in current_users_unwathed_list]
+    print get_top_n_recommendations(user_ratings_matrix, 1)
