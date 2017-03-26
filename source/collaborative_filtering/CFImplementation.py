@@ -35,4 +35,4 @@ def data_preprocess(data_file,user, n):
     # reindexing. Using reindexing adds column for never rated movie.
     user_ratings_matrix = user_ratings.pivot_table(index='user_id', columns='movie_id', values='rating', fill_value=0,
                                                    aggfunc=np.mean).reindex(columns=np.arange(1,710), fill_value=0)
-    print np.asarray(get_top_n_recommendations(user_ratings_matrix, user)[:n]) + 1
+    return np.asarray(get_top_n_recommendations(user_ratings_matrix, user)[:n]) + 1
