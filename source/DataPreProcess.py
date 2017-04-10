@@ -12,7 +12,6 @@ def data_pre_processor(data_file_location, number_of_folds):
 
     ratings_base = pand.read_csv(data_file_location, sep='\t', names=r_cols,
                                  encoding='latin-1')
-
     ratings_base.__delitem__('unix_timestamp')
 
     # Splitting data into K folds
@@ -49,5 +48,4 @@ def data_pre_processor(data_file_location, number_of_folds):
         # row[2] is the rating value
         for index, row in fold.iterrows():
             ratings_training_set[row[0] - 1][row[1] - 1] = row[2]
-
         return ratings_training_set, ratings_test_set
