@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from scipy import spatial
 
@@ -14,15 +13,18 @@ def get_item_similarity_matrix(user_item_ratings):
         # For each user we calculate similarity to each other users
         for index_internal, row_internal in transpose_dataframe.iterrows():
             # Here we calculate the similarity using cosine similarity method
-            distance = spatial.distance.cosine(row.as_matrix(),row_internal.as_matrix())
+            distance = spatial.distance.cosine(row.as_matrix(), row_internal.as_matrix())
             if np.isnan(distance):
                 distance = 1
             item_similarity_matrix[index - 1][index_internal - 1] = 1 - distance
     return item_similarity_matrix
 
+
 # create ratings prediction based on weights
 def get_predicted_ratings(user_index, item_index, user_ratings, item_similarity):
     item_similarities = item_similarity[item_index]
-    sum_of_similarities = np.sum(item_similarities)
+    sum_of_similarities = np.sum(np.delete(item_similarities, item_index))
     predicted_rating = np.dot(user_ratings.iloc[user_index], item_similarities) / sum_of_similarities
-    return int(round(predicted_rating))
+    if sum_of_similarities != 0:
+        return int(round(predicted_rating))
+    return 0
