@@ -1,6 +1,6 @@
 import numpy as np
 from UserBasedImp import data_pre_process
-from UserBasedImp import get_user_ratings_matrix
+from utils import get_user_ratings_matrix
 
 train_file = '/home/malintha/projects/Recommender-Systems/test/resources/data/ml-100k/ua.base'
 test_file = "/home/malintha/projects/Recommender-Systems/test/resources/data/ml-100k/ua.test"
