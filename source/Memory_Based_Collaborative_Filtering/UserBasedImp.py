@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy import spatial
 
+
 # Below function returns top-N recommendations for a given user
 def get_top_n_recommendations(user_ratings_matrix, current_user):
     closest_user = get_most_similar_users(user_ratings_matrix, current_user)[0]
