@@ -1,15 +1,9 @@
 import numpy as np
 # from CFImplementation import data_pre_process
 # from CFImplementation import get_user_ratings_matrix
-from ItemBasedCollaboration import get_user_ratings_matrix
-from ItemBasedCollaboration import get_item_similarity_matrix
-from ItemBasedCollaboration import get_weights
-
-# print "Enter a file for training:"
-# train_file = raw_input()
-#
-# print "Enter a file for testing:",
-# test_file = raw_input()
+from ItemBasedImp import get_user_ratings_matrix
+from ItemBasedImp import get_item_similarity_matrix
+from ItemBasedImp import get_weights
 
 train_file = '/home/malintha/projects/Recommender-Systems/test/resources/data/ml-100k/ua.base'
 test_file = "/home/malintha/projects/Recommender-Systems/test/resources/data/ml-100k/ua.test"
