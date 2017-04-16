@@ -12,8 +12,8 @@ def get_user_ratings_matrix(data_file):
     # removing timestamp column as it is not needed in this stage
     user_ratings.__delitem__('timestamp')
     # here we aggregate using a similar function like groupby
-    # here we use mean function as the aggregate funtion. One important thing is reindexing. You can try with and without
-    # reindexing. Using reindexing adds column for never rated movie.
+    # here we use mean function as the aggregate funtion. One important thing is reindexing. You can try with and
+    # without reindexing. Using reindexing adds column for never rated movie.
     user_ratings_matrix = user_ratings.pivot_table(index='user_id', columns='movie_id', values='rating', fill_value=0,
                                                    aggfunc=np.mean).reindex(columns=np.arange(1, 1683), fill_value=0)
     return user_ratings_matrix
@@ -38,5 +38,8 @@ def get_item_similarity_matrix(user_item_ratings):
     return item_similarity_matrix
 
 # create ratings prediction based on weights
-def get_weights(user_index, item_index, user_ratings, item_similarity):
-    return np.dot(user_ratings.iloc[user_index], item_similarity[item_index])
+def get_predicted_ratings(user_index, item_index, user_ratings, item_similarity):
+    item_similarities = item_similarity[item_index]
+    sum_of_similarities = np.sum(item_similarities)
+    predicted_rating = np.dot(user_ratings.iloc[user_index], item_similarities) / sum_of_similarities
+    return int(round(predicted_rating))
