@@ -7,4 +7,4 @@ test_file = "/home/malintha/projects/Recommender-Systems/test/resources/data/ml-
 
 user_ratings_matrix = get_user_ratings_matrix(train_file)
 item_similarity_matrix = get_item_similarity_matrix(user_ratings_matrix)
-print get_predicted_ratings(0, 7, user_ratings_matrix, item_similarity_matrix)
+print get_predicted_ratings(0, 1, user_ratings_matrix, item_similarity_matrix)
