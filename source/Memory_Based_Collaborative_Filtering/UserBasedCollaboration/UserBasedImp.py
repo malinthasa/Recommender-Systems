@@ -4,14 +4,14 @@ from scipy import spatial
 
 
 # Below function returns top-N recommendations for a given user
-def get_top_n_recommendations(user_ratings_matrix, current_user):
+def get_top_n_recommendations(user_ratings_matrix, current_user, top_list_length):
     closest_user = get_most_similar_users(user_ratings_matrix, current_user)[0]
     closest_neighbours_ratings = user_ratings_matrix.ix[closest_user].as_matrix()
     current_users_unwathed_list = np.where(user_ratings_matrix.ix[current_user].as_matrix() == 0)[0]
     closest_neighbours_ratings_for_unwatched_movies = [closest_neighbours_ratings[index] for index in
                                                        current_users_unwathed_list]
     those_ratings_in_decending_order = np.array(closest_neighbours_ratings_for_unwatched_movies).argsort()[::-1][:]
-    return [current_users_unwathed_list[a] for a in those_ratings_in_decending_order]
+    return np.asarray([current_users_unwathed_list[a] for a in those_ratings_in_decending_order][:top_list_length]) + 1
 
 
 def get_most_similar_users(user_ratings, user_id):
@@ -32,7 +32,3 @@ def get_most_similar_users(user_ratings, user_id):
         most_similar_users[index - 1] = np.array(user_similarity_matrix[index - 1]).argsort()[::-1][1:]
     # Getting the list of most similar users
     return most_similar_users[user_id - 1] + 1
-
-
-def data_pre_process(user, n, user_ratings_matrix):
-    return np.asarray(get_top_n_recommendations(user_ratings_matrix, user)[:n]) + 1

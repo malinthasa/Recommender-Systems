@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import spatial
 
+
 # create item similarity matrix
 def get_item_similarity_matrix(user_item_ratings):
     transpose_dataframe = user_item_ratings.T

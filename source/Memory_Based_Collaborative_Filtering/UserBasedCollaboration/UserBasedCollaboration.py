@@ -1,5 +1,5 @@
 import numpy as np
-from UserBasedImp import data_pre_process
+from UserBasedImp import get_top_n_recommendations
 from utils import get_user_ratings_matrix
 
 train_file = '/home/malintha/projects/Recommender-Systems/test/resources/data/ml-100k/ua.base'
@@ -12,7 +12,7 @@ evaluate = 0
 k = 10
 
 for user_id in range(user_count):
-    recommended_movies = data_pre_process(user_id + 1, k, original_user_ratings_matrix)
+    recommended_movies = get_top_n_recommendations(original_user_ratings_matrix, user_id + 1, k)
     print user_id
     temp1 = np.where(test_user_ratings_matrix.ix[user_id + 1].as_matrix() != 0)[0]
     if len(np.intersect1d(temp1, recommended_movies - 1)) > 0:

@@ -14,5 +14,5 @@ def get_user_ratings_matrix(data_file):
     # here we use mean function as the aggregate funtion. One important thing is reindexing. You can try with and
     # without reindexing. Using reindexing adds column for never rated movie.
     user_ratings_matrix = user_ratings.pivot_table(index='user_id', columns='movie_id', values='rating', fill_value=0,
-                                                   aggfunc=np.mean).reindex(columns=np.arange(1, 11), fill_value=0)
+                                                   aggfunc=np.mean).reindex(columns=np.arange(1, 1643), fill_value=0)
     return user_ratings_matrix
